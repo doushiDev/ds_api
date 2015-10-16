@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="ds_api:war exploded">
+    <output-path>$PROJECT_DIR$/target/ds_api</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="ds_api" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/ds_api/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="ds_api/web/Web" />
+    </root>
+  </artifact>
+</component>
