@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.alibaba:druid:0.2.20">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Work/Dev/open-open/apache-maven-3.2.2/repository/com/alibaba/druid/0.2.20/druid-0.2.20.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/Work/Dev/open-open/apache-maven-3.2.2/repository/com/alibaba/druid/0.2.20/druid-0.2.20-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Work/Dev/open-open/apache-maven-3.2.2/repository/com/alibaba/druid/0.2.20/druid-0.2.20-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
