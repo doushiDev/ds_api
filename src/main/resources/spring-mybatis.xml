@@ -71,7 +71,7 @@
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="cn.cinema.vctp.mapping" />
+		<property name="basePackage" value="me.doushi.api.mapping" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 
