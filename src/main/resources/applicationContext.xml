@@ -14,7 +14,7 @@
 	<context:component-scan base-package="me.doushi.*.*" />
 
 	<!-- 使AspectJ注解起作用：自动为匹配的类生产代理对象 -->
-	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	<aop:aspectj-autoproxy/>
 
 
 	<!-- 加载配置文件 -->
