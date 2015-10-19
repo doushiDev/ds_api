@@ -58,6 +58,8 @@ public class Bootstrap extends HttpServlet {
             beanConfig.setTitle("Doushi REST API");
             beanConfig.setContact("doushiapi@doushi.me");
             beanConfig.setDescription("Doushi App REST API");
+            String[] aa = {"https"};
+            beanConfig.setSchemes(aa);
 
 
             beanConfig.setScan(true);
@@ -77,8 +79,8 @@ public class Bootstrap extends HttpServlet {
                 .description("Everything about your Pets")
                 .externalDocs(new ExternalDocs("Find out more", "http://swagger.io")));
         swagger.tag(new Tag()
-                .name("store")
-                .description("Access to Petstore orders"));
+                .name("video")
+                .description("视频资源接口"));
         swagger.tag(new Tag()
                 .name("user")
                 .description("Operations about user")
