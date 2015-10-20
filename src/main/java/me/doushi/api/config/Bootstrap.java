@@ -59,7 +59,7 @@ public class Bootstrap extends HttpServlet {
             beanConfig.setContact("doushiapi@doushi.me");
             beanConfig.setDescription("Doushi App REST API");
             String[] aa = {"https"};
-            beanConfig.setSchemes(aa);
+//            beanConfig.setSchemes(aa);
 
 
             beanConfig.setScan(true);
