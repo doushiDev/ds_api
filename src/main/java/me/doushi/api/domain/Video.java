@@ -7,7 +7,7 @@ public class Video {
 
     private String id;
     private String title; //标题
-    private String video;// video地址
+    private String videoUrl;// video地址
     private String pic; // 图片地址
     private int type;//video类型
 
@@ -27,12 +27,12 @@ public class Video {
         this.title = title;
     }
 
-    public String getVideo() {
-        return video;
+    public String getVideoUrl() {
+        return videoUrl;
     }
 
-    public void setVideo(String video) {
-        this.video = video;
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     public String getPic() {
@@ -57,7 +57,7 @@ public class Video {
         return "Video{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
-                ", video='" + video + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
                 ", pic='" + pic + '\'' +
                 ", type=" + type +
                 '}';
@@ -67,10 +67,10 @@ public class Video {
         super();
     }
 
-    public Video(String id, String title, String video, String pic, int type) {
+    public Video(String id, String title, String videoUrl, String pic, int type) {
         this.id = id;
         this.title = title;
-        this.video = video;
+        this.videoUrl = videoUrl;
         this.pic = pic;
         this.type = type;
     }
