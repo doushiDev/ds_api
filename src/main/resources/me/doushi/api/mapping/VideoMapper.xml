@@ -9,4 +9,10 @@
 
     </select>
 
+    <select id="getVideosByHot" resultType="me.doushi.api.domain.Video" >
+        <![CDATA[
+      select v.id,v.title,v.url as videoUrl ,v.pic,v.type  from `tb_video` v where v.title != "" AND id<#{videoId} AND type = 1 ORDER BY id DESC LIMIT #{count}
+]]>
+    </select>
+
 </mapper>

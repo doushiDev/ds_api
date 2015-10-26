@@ -3,6 +3,7 @@ package me.doushi.api.mapping;
 import me.doushi.api.domain.Video;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 视频资源 数据<->DB
@@ -15,4 +16,12 @@ public interface VideoMapper {
      * @return
      */
     List<Video> getNewVideos(int count);
+
+
+    /**
+     * 获取最热video.
+     *  videoId后count条数据
+     * @return
+     */
+    List<Video> getVideosByHot(Map<String, Object> parmap);
 }

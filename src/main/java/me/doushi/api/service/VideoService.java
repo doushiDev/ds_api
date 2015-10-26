@@ -17,4 +17,13 @@ public interface VideoService {
      * @return
      */
     List<Video> getNewVideos(int count);
+
+    /**
+     * 获取最热video.
+     *  videoId后count条数据
+     * @param videoId
+     * @param count
+     * @return
+     */
+    List<Video> getVideosByHot(int videoId, int count);
 }
