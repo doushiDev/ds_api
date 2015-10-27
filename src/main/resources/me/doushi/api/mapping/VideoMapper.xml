@@ -3,25 +3,38 @@
 <mapper namespace="me.doushi.api.mapping.VideoMapper">
 
 
-    <select id="getNewVideos" resultType="me.doushi.api.domain.Video" >
+    <select id="getNewVideos" resultType="me.doushi.api.domain.Video">
+        select v.id,v.title,v.url as videoUrl ,v.pic,v.type from `tb_video` v where v.title != ""
+        <if test="videoId != 0">
+            AND id &lt; #{videoId}
+        </if>
 
-      select v.id,v.title,v.url as videoUrl ,v.pic,v.type  from `tb_video` v where v.title != "" ORDER BY id DESC LIMIT #{count}
+        ORDER BY id DESC LIMIT #{count}
 
     </select>
 
-    <select id="getVideosByHot" resultType="me.doushi.api.domain.Video" >
-        <![CDATA[
+    <select id="getVideosByHot" resultType="me.doushi.api.domain.Video">
 
-      select v.id,v.title,v.url as videoUrl ,v.pic,v.type  from `tb_video` v where v.title != ""
- 
-              <if test="${videoId} != null and ${start != 0}">
 
-AND id<#{videoId}
+        select v.id,v.title,v.url as videoUrl ,v.pic,v.type from `tb_video` v where v.title != ""
+        <if test="videoId != 0">
+            AND id &lt; #{videoId}
+        </if>
 
-</if>
+        AND type = 2 ORDER BY id DESC LIMIT #{count}
 
-AND type = 1 ORDER BY id DESC LIMIT #{count}
-]]>
+    </select>
+
+    <select id="getVideosByPop" resultType="me.doushi.api.domain.Video">
+
+
+        select v.id,v.title,v.url as videoUrl ,v.pic,v.type from `tb_video` v where v.title != ""
+        <if test="videoId != 0">
+            AND id &lt; #{videoId}
+        </if>
+
+        AND type = 1 ORDER BY id DESC LIMIT #{count}
+
     </select>
 
 </mapper>

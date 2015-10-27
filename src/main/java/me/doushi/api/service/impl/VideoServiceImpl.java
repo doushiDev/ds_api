@@ -21,15 +21,26 @@ public class VideoServiceImpl implements VideoService {
     private VideoMapper videoMapper;
 
     @Override
-    public List<Video> getNewVideos(int count) {
-        return videoMapper.getNewVideos(count);
+    public List<Video> getNewVideos(int videoId, int count) {
+        Map<String,Object> paramMap = new HashMap<String,Object>();
+        paramMap.put("videoId", videoId);
+        paramMap.put("count", count);
+        return videoMapper.getNewVideos(paramMap);
     }
 
     @Override
     public List<Video> getVideosByHot(int videoId, int count) {
-        Map<String,Object> parmap = new HashMap<String,Object>();
-        parmap.put("videoId",videoId);
-        parmap.put("count",count);
-        return videoMapper.getVideosByHot(parmap);
+        Map<String,Object> paramMap = new HashMap<String,Object>();
+        paramMap.put("videoId", videoId);
+        paramMap.put("count", count);
+        return videoMapper.getVideosByHot(paramMap);
+    }
+
+    @Override
+    public List<Video> getVideosByPop(int videoId, int count) {
+        Map<String,Object> paramMap = new HashMap<String,Object>();
+        paramMap.put("videoId", videoId);
+        paramMap.put("count", count);
+        return videoMapper.getVideosByPop(paramMap);
     }
 }

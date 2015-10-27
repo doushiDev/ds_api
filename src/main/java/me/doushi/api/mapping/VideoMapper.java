@@ -12,10 +12,10 @@ import java.util.Map;
 public interface VideoMapper {
     /**
      * 获取最新的视频集合
-     * @param count
+     * @param paramMap
      * @return
      */
-    List<Video> getNewVideos(int count);
+    List<Video> getNewVideos(Map<String, Object> paramMap);
 
 
     /**
@@ -23,5 +23,12 @@ public interface VideoMapper {
      *  videoId后count条数据
      * @return
      */
-    List<Video> getVideosByHot(Map<String, Object> parmap);
+    List<Video> getVideosByHot(Map<String, Object> paramMap);
+
+    /**
+     * 获取精华video.
+     *  videoId后count条数据
+     * @return
+     */
+    List<Video> getVideosByPop(Map<String, Object> paramMap);
 }
