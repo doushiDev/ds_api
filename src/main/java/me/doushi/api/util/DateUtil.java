@@ -28,10 +28,10 @@ public class DateUtil {
             System.out.println("传入的时间格式不符合规定");
         }
 
-        if (hour != 0 && hour < 2){
+        if (hour != 0 && hour <= 2){
             sb.append(hour).append("小时").append("前");
-        }else if(hour > 3){
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd");
+        }else if(hour >= 3){
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             sb.append(simpleDateFormat.format(simpleDateFormat.parse(begin)));
         }else{
             if (minute == 0 &&  minute < 5){
