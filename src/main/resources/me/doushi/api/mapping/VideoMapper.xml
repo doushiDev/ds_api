@@ -4,7 +4,7 @@
 
 
     <select id="getNewVideos" resultType="me.doushi.api.domain.Video">
-        select v.id,v.title,v.url as videoUrl ,v.pic,v.type from `tb_video` v where v.title != ""
+        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime from `tb_video` v where v.title != ""
         <if test="videoId != 0">
             AND id &lt; #{videoId}
         </if>
@@ -16,7 +16,7 @@
     <select id="getVideosByHot" resultType="me.doushi.api.domain.Video">
 
 
-        select v.id,v.title,v.url as videoUrl ,v.pic,v.type from `tb_video` v where v.title != ""
+        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime from `tb_video` v where v.title != ""
         <if test="videoId != 0">
             AND id &lt; #{videoId}
         </if>
@@ -28,7 +28,7 @@
     <select id="getVideosByPop" resultType="me.doushi.api.domain.Video">
 
 
-        select v.id,v.title,v.url as videoUrl ,v.pic,v.type from `tb_video` v where v.title != ""
+        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime from `tb_video` v where v.title != ""
         <if test="videoId != 0">
             AND id &lt; #{videoId}
         </if>
