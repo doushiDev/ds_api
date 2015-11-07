@@ -83,7 +83,7 @@ public class Bootstrap extends HttpServlet {
                 .description("视频资源接口"));
         swagger.tag(new Tag()
                 .name("user")
-                .description("Operations about user")
+                .description("用户资源管理")
                 .externalDocs(new ExternalDocs("Find out more about our store", "http://swagger.io")));
         context.setAttribute("swagger", swagger);
 

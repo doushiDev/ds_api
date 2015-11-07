@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.doushi.api.mapping.UserMapper">
+
+
+    <insert id="registerUser" parameterType="me.doushi.api.domain.User"  useGeneratedKeys="true" keyProperty="id" >
+
+      insert into `ds_video`.`tb_user` ( `phone`, `password`, `headImage`, `status`, `gender`, `platformId`, `platformName`, `nickName`)
+
+      values (#{phone}, #{password}, #{headImage}, 1, #{gender}, #{platformId}, #{platformName}, #{nickName})
+
+    </insert>
+
+    <select id="checkUserByPhone" parameterType="map" resultType="int">
+        select count(id) from tb_user tu where tu.phone = #{phone} and tu.`status` = 1
+    </select>
+
+
+</mapper>
