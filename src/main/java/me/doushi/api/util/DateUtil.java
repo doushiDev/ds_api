@@ -40,7 +40,7 @@ public class DateUtil {
             String dayStr = "";
             if (day.equals(beginDay)) { //当天
                 dayStr = df.format(df.parse(begin)).substring(11, 16);
-                sb.append("今天:" + dayStr);
+                sb.append("今天 " + dayStr);
             }else{
                 dayStr = df.format(df.parse(begin)).substring(0, 10);
                 sb.append(dayStr);
