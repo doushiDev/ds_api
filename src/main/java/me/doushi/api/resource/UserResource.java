@@ -4,6 +4,7 @@ import io.swagger.annotations.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -43,8 +44,11 @@ public class UserResource {
             @ApiResponse(code = 400, message = "服务器不理解请求的语法", response = ApiError.class),
             @ApiResponse(code = 500, message = "系统异常", response = ApiError.class)})
     public Response registerUser(@ApiParam(value = "用户基本信息", name = "user", required = true) User user,
-                                 @Context HttpServletRequest httpServletRequest){
-        Response response = null;
+                                 @Context HttpServletRequest httpServletRequest,
+                                 @Context HttpServletResponse httpServletResponse) {
+
+        httpServletResponse.setContentType("application/json;charset=utf-8");
+        Response response;
         try {
             response = userService.registerUser(user, httpServletRequest);
         } catch (Exception e) {

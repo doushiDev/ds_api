@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.doushi.api.mapping.UserAndVideoMapper">
+    <resultMap id="BaseResultMap" type="me.doushi.api.domain.UserAndVideo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="userId" property="userId" jdbcType="INTEGER"/>
+        <result column="videoId" property="videoId" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="UserAndVideo_List">
+    uv.id,
+    uv.userId,
+    uv.videoId,
+    uv.status
+  </sql>
+
+    <delete id="updateByUserIdAndVideoId">
+        update tb_user_video uv
+
+        <set>
+            uv.status = #{status}
+        </set>
+        where uv.userId = #{userId} and uv.videoId = #{videoId}
+    </delete>
+
+    <insert id="insert" parameterType="me.doushi.api.domain.UserAndVideo" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_user_video (userId, videoId,
+      status)
+    values (#{userId,jdbcType=INTEGER}, #{videoId,jdbcType=INTEGER},
+      #{status,jdbcType=INTEGER})
+  </insert>
+
+    <select id="selectUserAndVideoListByUserId"
+            resultType="me.doushi.api.domain.Video">
+
+
+
+    select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime from `tb_video` v where v.title != ""
+   AND v.id in (select uv.videoId FROM  tb_user_video uv WHERE uv.userId=#{userId} AND uv.status = 1 ORDER BY uv.createDate DESC
+  )
+limit #{pageNum},#{count}
+
+  </select>
+
+    <select id="getUserAndVideoByUserIdAndVideoId" resultMap="BaseResultMap">
+        select
+        <include refid="UserAndVideo_List"/>
+        FROM tb_user_video uv WHERE uv.userId=#{userId} and uv.videoId = #{videoId}
+    </select>
+
+</mapper>

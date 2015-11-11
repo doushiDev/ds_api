@@ -22,5 +22,5 @@ public interface UserMapper {
      * @param par
      * @return
      */
-    int checkUserByPhone(Map<String, Object> par);
+    User checkUserByPhoneAndPlatformId(Map<String, Object> par);
 }

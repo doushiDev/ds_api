@@ -28,8 +28,7 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
 
-    Response response = null;
-    StringBuffer message = new StringBuffer();
+     StringBuffer message = new StringBuffer();
 
     @Resource
     private UserMapper userMapper;
@@ -37,29 +36,35 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Response registerUser(User user, HttpServletRequest httpServletRequest) throws Exception {
+        Response response;
 
         String requestURI = httpServletRequest.getRequestURI();
-        ResponseEntity<User> videoResponseEntity = new ResponseEntity<User>();
-        videoResponseEntity.setRequest(requestURI);
-        //检测手机号是否被注册过
+        ResponseEntity<User> userResponseEntity = new ResponseEntity<User>();
+        userResponseEntity.setRequest(requestURI);
+        //检测用户是否被注册
         Map<String,Object> par = new HashMap<>();
         par.put("phone",user.getPhone());
-        int checkUserPhoneCount = userMapper.checkUserByPhone(par);
-        if (checkUserPhoneCount == 0){ //手机号未注册
+        par.put("platformId",user.getPlatformId());
+        User checkUser = userMapper.checkUserByPhoneAndPlatformId(par);
+        if (null  == checkUser){
             int addUserCount = userMapper.registerUser(user);
             if (addUserCount > 0) {
                 LOGGER.info("注册用户成功");
-                videoResponseEntity.setStatusCode(201);
-                videoResponseEntity.setContent(user);
+                userResponseEntity.setStatusCode(201);
+                userResponseEntity.setContent(user);
                 user.setPassword(null);
-                videoResponseEntity.setMessage("注册用户成功");
-                response = Response.status(CREATED).entity(videoResponseEntity).build();
+                userResponseEntity.setMessage("注册用户成功");
+                response = Response.status(CREATED).entity(userResponseEntity).build();
             }else{
                 response = Response.status(ACCEPTED).entity(new ApiError(10110, "注册失败", httpServletRequest.getRequestURI(), "注册失败,请稍后重试")).build();
             }
         }else{
-            LOGGER.info("手机号已被注册");
-            response = Response.status(ACCEPTED).entity(new ApiError(10112, "注册失败", httpServletRequest.getRequestURI(), "手机号已被注册,请直接登录")).build();
+            LOGGER.info("用户已存在");
+            userResponseEntity.setStatusCode(201);
+            userResponseEntity.setContent(checkUser);
+            user.setPassword(null);
+            userResponseEntity.setMessage("用户已存在");
+            response = Response.status(CREATED).entity(userResponseEntity).build();
         }
         return response;
     }

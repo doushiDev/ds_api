@@ -3,7 +3,7 @@
 <mapper namespace="me.doushi.api.mapping.UserMapper">
 
 
-    <insert id="registerUser" parameterType="me.doushi.api.domain.User"  useGeneratedKeys="true" keyProperty="id" >
+    <insert id="registerUser" parameterType="me.doushi.api.domain.User" useGeneratedKeys="true" keyProperty="id">
 
       insert into `ds_video`.`tb_user` ( `phone`, `password`, `headImage`, `status`, `gender`, `platformId`, `platformName`, `nickName`)
 
@@ -11,8 +11,17 @@
 
     </insert>
 
-    <select id="checkUserByPhone" parameterType="map" resultType="int">
-        select count(id) from tb_user tu where tu.phone = #{phone} and tu.`status` = 1
+    <select id="checkUserByPhoneAndPlatformId" parameterType="map" resultType="me.doushi.api.domain.User">
+        select * from tb_user tu where tu.`status` = 1
+
+        <if test="platformId != null">
+            AND tu.platformId = #{platformId}
+        </if>
+
+        <if test="phone != null">
+            AND tu.phone = #{phone}
+        </if>
+
     </select>
 
 

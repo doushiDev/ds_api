@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -55,8 +56,11 @@ public class VideoResource {
             @ApiResponse(code = 500, message = "系统异常", response = ApiError.class)})
     public Response getNewVideos(@ApiParam(value = "视频id</br> 0:获取最新数据", required = true) @PathParam("videoId") int videoId,
                                  @ApiParam(value = "获取条数", required = true) @PathParam("count") int count,
-                                 @Context HttpServletRequest httpServletRequest) throws Exception {
-        Response response = null;
+                                 @Context HttpServletRequest httpServletRequest,
+                                 @Context HttpServletResponse httpServletResponse) {
+
+        httpServletResponse.setContentType("application/json;charset=utf-8");
+        Response response;
         ResponseEntity<List<Video>> videoResponseEntity = new ResponseEntity<List<Video>>();
         try {
             //  判断参数是否合法
@@ -109,8 +113,11 @@ public class VideoResource {
             @ApiResponse(code = 400, message = "参数非法", response = ApiError.class),
             @ApiResponse(code = 500, message = "系统异常", response = ApiError.class)})
     public Response getVideosByHot(@ApiParam(value = "视频id</br> 0:获取最新数据", required = true) @PathParam("videoId") int videoId,@ApiParam(value = "获取条数", required = true) @PathParam("count") int count,
-                                 @Context HttpServletRequest httpServletRequest) throws Exception {
-        Response response = null;
+                                 @Context HttpServletRequest httpServletRequest,
+                                   @Context HttpServletResponse httpServletResponse) {
+
+        httpServletResponse.setContentType("application/json;charset=utf-8");
+        Response response;
         ResponseEntity<List<Video>> videoResponseEntity = new ResponseEntity<List<Video>>();
         try {
             //  判断参数是否合法
@@ -156,8 +163,11 @@ public class VideoResource {
             @ApiResponse(code = 400, message = "参数非法", response = ApiError.class),
             @ApiResponse(code = 500, message = "系统异常", response = ApiError.class)})
     public Response getVideosByPop(@ApiParam(value = "视频id</br> 0:获取最新数据", required = true) @PathParam("videoId") int videoId,@ApiParam(value = "获取条数", required = true) @PathParam("count") int count,
-                                   @Context HttpServletRequest httpServletRequest) throws Exception {
-        Response response = null;
+                                   @Context HttpServletRequest httpServletRequest,
+                                   @Context HttpServletResponse httpServletResponse) {
+
+        httpServletResponse.setContentType("application/json;charset=utf-8");
+        Response response;
         ResponseEntity<List<Video>> videoResponseEntity = new ResponseEntity<List<Video>>();
         try {
             //  判断参数是否合法
