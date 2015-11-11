@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
 
-     StringBuffer message = new StringBuffer();
+    StringBuffer message = new StringBuffer();
 
     @Resource
     private UserMapper userMapper;
@@ -42,11 +42,11 @@ public class UserServiceImpl implements UserService {
         ResponseEntity<User> userResponseEntity = new ResponseEntity<User>();
         userResponseEntity.setRequest(requestURI);
         //检测用户是否被注册
-        Map<String,Object> par = new HashMap<>();
-        par.put("phone",user.getPhone());
-        par.put("platformId",user.getPlatformId());
+        Map<String, Object> par = new HashMap<>();
+        par.put("phone", user.getPhone());
+        par.put("platformId", user.getPlatformId());
         User checkUser = userMapper.checkUserByPhoneAndPlatformId(par);
-        if (null  == checkUser){
+        if (null == checkUser) {
             int addUserCount = userMapper.registerUser(user);
             if (addUserCount > 0) {
                 LOGGER.info("注册用户成功");
@@ -55,16 +55,49 @@ public class UserServiceImpl implements UserService {
                 user.setPassword(null);
                 userResponseEntity.setMessage("注册用户成功");
                 response = Response.status(CREATED).entity(userResponseEntity).build();
-            }else{
+            } else {
                 response = Response.status(ACCEPTED).entity(new ApiError(10110, "注册失败", httpServletRequest.getRequestURI(), "注册失败,请稍后重试")).build();
             }
-        }else{
+        } else {
             LOGGER.info("用户已存在");
             userResponseEntity.setStatusCode(201);
+
             userResponseEntity.setContent(checkUser);
             user.setPassword(null);
             userResponseEntity.setMessage("用户已存在");
             response = Response.status(CREATED).entity(userResponseEntity).build();
+        }
+        return response;
+    }
+
+    @Override
+    public Response loginUser(String phone, String password, HttpServletRequest httpServletRequest) {
+
+        Response response;
+
+        String requestURI = httpServletRequest.getRequestURI();
+        ResponseEntity<User> userResponseEntity = new ResponseEntity<User>();
+        userResponseEntity.setRequest(requestURI);
+        //检测用户是否被注册
+        Map<String, Object> par = new HashMap<>();
+        par.put("phone", phone);
+        User checkUser = userMapper.checkUserByPhoneAndPlatformId(par);
+        if (null != checkUser) {
+            par.put("password", password);
+            User loginUser = userMapper.checkUserByPhoneAndPlatformId(par);
+            if (loginUser != null) {
+                LOGGER.info("登录成功");
+                userResponseEntity.setStatusCode(200);
+                userResponseEntity.setContent(loginUser);
+                loginUser.setPassword(null);
+                userResponseEntity.setMessage("登录成功");
+                response = Response.status(CREATED).entity(userResponseEntity).build();
+            } else {
+                response = Response.status(ACCEPTED).entity(new ApiError(1012, "密码错误", httpServletRequest.getRequestURI(), "登录失败,密码错误")).build();
+            }
+        } else {
+            LOGGER.info("此手机号不存在");
+            response = Response.status(ACCEPTED).entity(new ApiError(1013, "手机号未注册", httpServletRequest.getRequestURI(), "手机号未注册")).build();
         }
         return response;
     }

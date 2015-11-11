@@ -21,6 +21,9 @@
         <if test="phone != null">
             AND tu.phone = #{phone}
         </if>
+        <if test="password != null">
+            AND tu.password = #{password}
+        </if>
 
     </select>
 

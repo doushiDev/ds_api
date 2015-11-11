@@ -16,4 +16,13 @@ public interface UserService {
      * @return
      */
     Response registerUser(User user, HttpServletRequest httpServletRequest) throws Exception;
+
+    /**
+     * 用户登录
+     * @param phone
+     * @param password
+     * @param httpServletRequest
+     * @return
+     */
+    Response loginUser(String phone, String password, HttpServletRequest httpServletRequest);
 }
