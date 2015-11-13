@@ -41,53 +41,31 @@ public class VideoResource {
     private VideoService videoService;
 
     /**
-     * 获取最新video
+     * 获取 video
      *
      * @param count 获取条数
+     *
      * @return
      */
     @GET
-    @Path("getNewVideos/{videoId}/{count}")
-    @ApiOperation("获取最新video")
+    @Path("getVideosByType/{videoId}/{count}/{type}")
+    @ApiOperation("根据类型获取视频资源")
     @ApiResponses({
             @ApiResponse(code = 200, message = "获取成功", response = ResponseEntity.class),
             @ApiResponse(code = 204, message = "请求成功,但数据为空", response = ResponseEntity.class),
             @ApiResponse(code = 400, message = "参数非法", response = ApiError.class),
             @ApiResponse(code = 500, message = "系统异常", response = ApiError.class)})
-    public Response getNewVideos(@ApiParam(value = "视频id</br> 0:获取最新数据", required = true) @PathParam("videoId") int videoId,
-                                 @ApiParam(value = "获取条数", required = true) @PathParam("count") int count,
-                                 @Context HttpServletRequest httpServletRequest,
-                                 @Context HttpServletResponse httpServletResponse) {
+    public Response getVideosByType(@ApiParam(value = "视频id</br> 0:获取最新数据", required = true) @PathParam("videoId") int videoId,
+                                    @ApiParam(value = "获取条数", required = true) @PathParam("count") int count,
+                                    @ApiParam(value = "类型 </br>0:推荐1:精华 2:热门", required = true) @PathParam("type") int type,
+                                    @Context HttpServletRequest httpServletRequest,
+                                    @Context HttpServletResponse httpServletResponse) {
 
         httpServletResponse.setContentType("application/json;charset=utf-8");
         Response response;
-        ResponseEntity<List<Video>> videoResponseEntity = new ResponseEntity<List<Video>>();
         try {
-            //  判断参数是否合法
-            if (count > 100) {//获取条数非法
-                LOGGER.error(new ApiError(10178, "系统错误", httpServletRequest.getRequestURI(), "参数（count）值非法，希望得到（int[1~100]），实际得到（" + count + ")"));
-                response = Response.status(BAD_REQUEST).entity(new ApiError(10178, "系统错误", httpServletRequest.getRequestURI(), "参数（count）值非法，希望得到（int[1~100]），实际得到（" + count + ")")).build();
-            } else {
-                //请求数据
-                List<Video> videos = videoService.getNewVideos(videoId,count);
-                //判断数据是否为空
-                if (!videos.isEmpty()){
-                    //视频集合不为空
-                    LOGGER.info("视频集合为: " + videos.size() + "条");
-                    videoResponseEntity.setStatusCode(OK.getStatusCode());
-                    videoResponseEntity.setContent(videos);
-                    videoResponseEntity.setMessage("获取 "+ videos.size() + "条数据");
-                    videoResponseEntity.setRequest(httpServletRequest.getRequestURI());
-                    response = Response.status(OK).entity(videoResponseEntity).build();
-                }else{
-                    videoResponseEntity.setStatusCode(NO_CONTENT.getStatusCode());
-                    videoResponseEntity.setContent(videos);
-                    videoResponseEntity.setMessage("没有数据");
-                    videoResponseEntity.setRequest(httpServletRequest.getRequestURI());
-                    response = Response.status(NO_CONTENT).entity(videoResponseEntity).build();
-                }
-            }
-        }catch (Exception e){
+            response = videoService.getVideosByType(videoId, count, type, httpServletRequest);
+        } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
             LOGGER.error("系统异常");
@@ -96,105 +74,41 @@ public class VideoResource {
         return response;
     }
 
-
-    /**
-     * 获取最热video.
-     *  videoId后count条数据
-     * @param videoId 视频Id
-     * @param count 获取条数
-     * @return
-     */
     @GET
-    @Path("getVideosByHot/{videoId}/{count}")
-    @ApiOperation("获取最热video")
+    @Path("getVideosByBanner")
+    @ApiOperation("获取发现 banner视频")
     @ApiResponses({
             @ApiResponse(code = 200, message = "获取成功", response = ResponseEntity.class),
             @ApiResponse(code = 204, message = "请求成功,但数据为空", response = ResponseEntity.class),
             @ApiResponse(code = 400, message = "参数非法", response = ApiError.class),
             @ApiResponse(code = 500, message = "系统异常", response = ApiError.class)})
-    public Response getVideosByHot(@ApiParam(value = "视频id</br> 0:获取最新数据", required = true) @PathParam("videoId") int videoId,@ApiParam(value = "获取条数", required = true) @PathParam("count") int count,
-                                 @Context HttpServletRequest httpServletRequest,
-                                   @Context HttpServletResponse httpServletResponse) {
+    public Response getVideosByBanner(@Context HttpServletRequest httpServletRequest,
+                                      @Context HttpServletResponse httpServletResponse) {
 
         httpServletResponse.setContentType("application/json;charset=utf-8");
         Response response;
         ResponseEntity<List<Video>> videoResponseEntity = new ResponseEntity<List<Video>>();
         try {
-            //  判断参数是否合法
-            if (count > 100) {//获取条数非法
-                LOGGER.error(new ApiError(10178, "系统错误", httpServletRequest.getRequestURI(), "参数（count）值非法，希望得到（int[1~100]），实际得到（" + count + ")"));
-                response = Response.status(BAD_REQUEST).entity(new ApiError(10178, "系统错误", httpServletRequest.getRequestURI(), "参数（count）值非法，希望得到（int[1~100]），实际得到（" + count + ")")).build();
+            //请求数据
+            List<Video> videos = videoService.getVideosByBanner();
+            //判断数据是否为空
+            if (!videos.isEmpty()) {
+                //视频集合不为空
+                LOGGER.info("视频集合为: " + videos.size() + "条");
+                videoResponseEntity.setStatusCode(OK.getStatusCode());
+                videoResponseEntity.setContent(videos);
+                videoResponseEntity.setMessage("获取 " + videos.size() + "条数据");
+                videoResponseEntity.setRequest(httpServletRequest.getRequestURI());
+                response = Response.status(OK).entity(videoResponseEntity).build();
             } else {
-                //请求数据
-                List<Video> videos = videoService.getVideosByHot(videoId,count);
-                //判断数据是否为空
-                if (!videos.isEmpty()){
-                    //视频集合不为空
-                    LOGGER.info("视频集合为: " + videos.size() + "条");
-                    videoResponseEntity.setStatusCode(OK.getStatusCode());
-                    videoResponseEntity.setContent(videos);
-                    videoResponseEntity.setMessage("获取 "+ videos.size() + "条数据");
-                    videoResponseEntity.setRequest(httpServletRequest.getRequestURI());
-                    response = Response.status(OK).entity(videoResponseEntity).build();
-                }else{
-                    videoResponseEntity.setStatusCode(NO_CONTENT.getStatusCode());
-                    videoResponseEntity.setContent(videos);
-                    videoResponseEntity.setMessage("没有数据");
-                    videoResponseEntity.setRequest(httpServletRequest.getRequestURI());
-                    response = Response.status(NO_CONTENT).entity(videoResponseEntity).build();
-                }
+                videoResponseEntity.setStatusCode(NO_CONTENT.getStatusCode());
+                videoResponseEntity.setContent(videos);
+                videoResponseEntity.setMessage("没有数据");
+                videoResponseEntity.setRequest(httpServletRequest.getRequestURI());
+                response = Response.status(NO_CONTENT).entity(videoResponseEntity).build();
             }
-        }catch (Exception e){
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
-            LOGGER.error("系统异常");
-            response = Response.status(INTERNAL_SERVER_ERROR).entity(new ApiError(10178, "系统错误", httpServletRequest.getRequestURI(), "系统错误,请联系逗视管理员")).build();
-        }
-        return response;
-    }
 
-
-    @GET
-    @Path("getVideosByPop/{videoId}/{count}")
-    @ApiOperation("获取精华video")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "获取成功", response = ResponseEntity.class),
-            @ApiResponse(code = 204, message = "请求成功,但数据为空", response = ResponseEntity.class),
-            @ApiResponse(code = 400, message = "参数非法", response = ApiError.class),
-            @ApiResponse(code = 500, message = "系统异常", response = ApiError.class)})
-    public Response getVideosByPop(@ApiParam(value = "视频id</br> 0:获取最新数据", required = true) @PathParam("videoId") int videoId,@ApiParam(value = "获取条数", required = true) @PathParam("count") int count,
-                                   @Context HttpServletRequest httpServletRequest,
-                                   @Context HttpServletResponse httpServletResponse) {
-
-        httpServletResponse.setContentType("application/json;charset=utf-8");
-        Response response;
-        ResponseEntity<List<Video>> videoResponseEntity = new ResponseEntity<List<Video>>();
-        try {
-            //  判断参数是否合法
-            if (count > 100) {//获取条数非法
-                LOGGER.error(new ApiError(10178, "系统错误", httpServletRequest.getRequestURI(), "参数（count）值非法，希望得到（int[1~100]），实际得到（" + count + ")"));
-                response = Response.status(BAD_REQUEST).entity(new ApiError(10178, "系统错误", httpServletRequest.getRequestURI(), "参数（count）值非法，希望得到（int[1~100]），实际得到（" + count + ")")).build();
-            } else {
-                //请求数据
-                List<Video> videos = videoService.getVideosByPop(videoId,count);
-                //判断数据是否为空
-                if (!videos.isEmpty()){
-                    //视频集合不为空
-                    LOGGER.info("视频集合为: " + videos.size() + "条");
-                    videoResponseEntity.setStatusCode(OK.getStatusCode());
-                    videoResponseEntity.setContent(videos);
-                    videoResponseEntity.setMessage("获取 "+ videos.size() + "条数据");
-                    videoResponseEntity.setRequest(httpServletRequest.getRequestURI());
-                    response = Response.status(OK).entity(videoResponseEntity).build();
-                }else{
-                    videoResponseEntity.setStatusCode(NO_CONTENT.getStatusCode());
-                    videoResponseEntity.setContent(videos);
-                    videoResponseEntity.setMessage("没有数据");
-                    videoResponseEntity.setRequest(httpServletRequest.getRequestURI());
-                    response = Response.status(NO_CONTENT).entity(videoResponseEntity).build();
-                }
-            }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
             LOGGER.error("系统异常");

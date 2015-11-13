@@ -28,7 +28,6 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
 
-    StringBuffer message = new StringBuffer();
 
     @Resource
     private UserMapper userMapper;

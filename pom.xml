@@ -307,7 +307,7 @@
 
   </dependencies>
   <build>
-    <finalName>ds_api</finalName>
+    <finalName>v1</finalName>
     <plugins>
       <plugin>
         <groupId>org.eclipse.jetty</groupId>

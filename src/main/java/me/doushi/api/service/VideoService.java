@@ -2,6 +2,8 @@ package me.doushi.api.service;
 
 import me.doushi.api.domain.Video;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -11,29 +13,13 @@ import java.util.List;
 public interface VideoService {
 
 
-    /**
-     * 获取最新的视频集合
-     * @param count
-     * @return
-     */
-    List<Video> getNewVideos(int videoId,int count);
+
+
+    Response getVideosByType(int videoId,int count,int type,HttpServletRequest httpServletRequest);
 
     /**
-     * 获取最热video.
-     *  videoId后count条数据
-     * @param videoId
-     * @param count
+     * 获取发现 Banner
      * @return
      */
-    List<Video> getVideosByHot(int videoId, int count);
-
-    /**
-     *
-     * 获取最热video.
-     *   videoId后count条数据
-     * @param videoId
-     * @param count
-     * @return
-     */
-    List<Video> getVideosByPop(int videoId, int count);
+    List<Video> getVideosByBanner();
 }

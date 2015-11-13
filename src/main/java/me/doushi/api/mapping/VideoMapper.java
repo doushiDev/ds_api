@@ -10,25 +10,17 @@ import java.util.Map;
  * Created by songlijun on 15/10/23.
  */
 public interface VideoMapper {
-    /**
-     * 获取最新的视频集合
-     * @param paramMap
-     * @return
-     */
-    List<Video> getNewVideos(Map<String, Object> paramMap);
-
 
     /**
-     * 获取最热video.
-     *  videoId后count条数据
+     * 获取发现 Banner
      * @return
      */
-    List<Video> getVideosByHot(Map<String, Object> paramMap);
+    List<Video> getVideosByBanner();
 
     /**
-     * 获取精华video.
-     *  videoId后count条数据
+     * 根据类型获取视频
+     * @param parMap
      * @return
      */
-    List<Video> getVideosByPop(Map<String, Object> paramMap);
+    List<Video> getVideosByType(Map<String, Object> parMap);
 }

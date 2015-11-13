@@ -3,37 +3,31 @@
 <mapper namespace="me.doushi.api.mapping.VideoMapper">
 
 
-    <select id="getNewVideos" resultType="me.doushi.api.domain.Video">
+
+    <select id="getVideosByType" resultType="me.doushi.api.domain.Video">
         select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime from `tb_video` v where v.title != ""
+
         <if test="videoId != 0">
             AND id &lt; #{videoId}
+        </if>
+
+        <if test="type != 0">
+            AND type = #{type}
         </if>
 
         ORDER BY id DESC LIMIT #{count}
 
     </select>
 
-    <select id="getVideosByHot" resultType="me.doushi.api.domain.Video">
+
+    <select id="getVideosByBanner" resultType="me.doushi.api.domain.Video">
 
 
-        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime from `tb_video` v where v.title != ""
-        <if test="videoId != 0">
-            AND id &lt; #{videoId}
-        </if>
+        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime from `tb_video` v
 
-        AND type = 2 ORDER BY id DESC LIMIT #{count}
+        where v.title != ""
 
-    </select>
-
-    <select id="getVideosByPop" resultType="me.doushi.api.domain.Video">
-
-
-        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime from `tb_video` v where v.title != ""
-        <if test="videoId != 0">
-            AND id &lt; #{videoId}
-        </if>
-
-        AND type = 1 ORDER BY id DESC LIMIT #{count}
+        ORDER BY id DESC LIMIT 5
 
     </select>
 
