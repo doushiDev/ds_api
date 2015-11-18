@@ -16,6 +16,17 @@ public class Video {
     private int type;//video类型
     private String pushTime;//发布时间
 
+    private int isCollectStatus;//是否收藏1:已收藏0:未收藏
+
+    public int getIsCollectStatus() {
+        return isCollectStatus;
+    }
+
+    public void setIsCollectStatus(int isCollectStatus) {
+        this.isCollectStatus = isCollectStatus;
+    }
+
+
     public String getId() {
         return id;
     }

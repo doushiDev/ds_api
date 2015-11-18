@@ -15,7 +15,7 @@ public interface VideoService {
 
 
 
-    Response getVideosByType(int videoId,int count,int type,HttpServletRequest httpServletRequest);
+    Response getVideosByType(int videoId, int count, int type, int userId, HttpServletRequest httpServletRequest);
 
     /**
      * 获取发现 Banner

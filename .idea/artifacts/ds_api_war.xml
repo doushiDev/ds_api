@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="ds_api:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="ds_api.war">
+    <root id="archive" name="v1.war">
       <element id="artifact" artifact-name="ds_api:war exploded" />
     </root>
   </artifact>

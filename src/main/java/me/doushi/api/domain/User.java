@@ -45,6 +45,7 @@ public class User {
         this.platformName = platformName;
     }
 
+
     public String getPassword() {
         return password;
     }

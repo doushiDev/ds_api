@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="ds_api:war exploded">
-    <output-path>$PROJECT_DIR$/target/ds_api</output-path>
+    <output-path>$PROJECT_DIR$/target/v1</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -94,10 +94,13 @@
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.3.1" />
           <element id="library" level="project" name="Maven: org.apache.commons:commons-pool2:2.3" />
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.10" />
+          <element id="library" level="project" name="Maven: com.qiniu:qiniu-java-sdk:7.0.6" />
+          <element id="library" level="project" name="Maven: com.squareup.okhttp:okhttp:2.5.0" />
+          <element id="library" level="project" name="Maven: com.squareup.okio:okio:1.6.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/ds_api/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/v1/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="ds_api/web/Web" />
     </root>

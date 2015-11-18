@@ -23,4 +23,12 @@ public interface UserMapper {
      * @return
      */
     User checkUserByPhoneAndPlatformId(Map<String, Object> par);
+
+
+    /**
+     * 更新用户信息
+     * @param user
+     * @return
+     */
+    int updateUser(User user);
 }

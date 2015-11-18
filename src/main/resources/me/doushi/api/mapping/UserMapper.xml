@@ -27,5 +27,19 @@
 
     </select>
 
+    <update id="updateUser" parameterType="me.doushi.api.domain.User">
+
+        UPDATE `tb_user` u
+        <set>
+            <if test="headImage != null">
+                u.headImage = #{headImage},
+            </if>
+            <if test="nickName != null">
+                u.nickName = #{nickName}
+            </if>
+        </set>
+        where u.id = #{id}
+    </update>
+
 
 </mapper>

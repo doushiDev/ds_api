@@ -1,6 +1,5 @@
 package me.doushi.api.service.impl;
 
-import me.doushi.api.domain.User;
 import me.doushi.api.domain.Video;
 import me.doushi.api.mapping.VideoMapper;
 import me.doushi.api.service.VideoService;
@@ -15,7 +14,6 @@ import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.NO_CONTENT;
@@ -39,7 +37,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public Response getVideosByType(int videoId, int count, int type, HttpServletRequest httpServletRequest) {
+    public Response getVideosByType(int videoId, int count, int type, int userId, HttpServletRequest httpServletRequest) {
 
         Response response;
         String requestURI = httpServletRequest.getRequestURI();
@@ -50,6 +48,7 @@ public class VideoServiceImpl implements VideoService {
         parMap.put("videoId", videoId);
         parMap.put("count", count);
         parMap.put("type", type);
+        parMap.put("userId", userId);
 
         //  判断参数是否合法
         if (count > 100) {//获取条数非法

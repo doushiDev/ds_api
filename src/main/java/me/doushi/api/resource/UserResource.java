@@ -13,6 +13,7 @@ import me.doushi.api.domain.User;
 import me.doushi.api.service.UserService;
 import me.doushi.api.util.ApiError;
 import me.doushi.api.util.ResponseEntity;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.MediaType;
@@ -29,6 +30,7 @@ import static javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
 @Component
 public class UserResource {
 
+    private static final Logger LOGGER = Logger.getLogger(UserResource.class.getName());
 
     @Resource
     private UserService userService;
@@ -78,6 +80,29 @@ public class UserResource {
         } catch (Exception e) {
             e.printStackTrace();
             response = Response.status(INTERNAL_SERVER_ERROR).entity(new ApiError(10999, "系统异常", httpServletRequest.getRequestURI(), "系统错误,请联系逗视管理员")).build();
+        }
+        return response;
+    }
+
+
+    @PUT
+    @ApiOperation("更新用户")
+    @Path("/updateUser")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "更新成功", response = ResponseEntity.class),
+            @ApiResponse(code = 400, message = "服务器不理解请求的语法", response = ApiError.class),
+            @ApiResponse(code = 500, message = "系统异常", response = ApiError.class)})
+    public Response updateUser(@ApiParam(value = "用户基本信息", name = "user", required = true) User user,
+                               @Context HttpServletRequest httpServletRequest,
+                               @Context HttpServletResponse httpServletResponse) {
+        LOGGER.info("更新用户");
+        httpServletResponse.setContentType("application/json;charset=utf-8");
+        Response response;
+        try {
+            response = userService.updateUser(user, httpServletRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = Response.status(INTERNAL_SERVER_ERROR).entity(new ApiError(10999, "系统异常", httpServletRequest.getRequestURI(), "系统错误,请联系南瓜视频管理员")).build();
         }
         return response;
     }

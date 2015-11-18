@@ -5,7 +5,10 @@
 
 
     <select id="getVideosByType" resultType="me.doushi.api.domain.Video">
-        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime from `tb_video` v where v.title != ""
+        select distinct v.title,v.id,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime ,(select count(*) from `tb_user_video` tub WHERE tub.`status` = 1 AND tub.userId = #{userId} AND tub.videoId = v.id) as isCollectStatus
+
+
+        from `tb_video` v where v.title != ""
 
         <if test="videoId != 0">
             AND id &lt; #{videoId}
@@ -22,12 +25,11 @@
 
     <select id="getVideosByBanner" resultType="me.doushi.api.domain.Video">
 
-
         select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime from `tb_video` v
 
         where v.title != ""
 
-        ORDER BY id DESC LIMIT 5
+        ORDER BY rand() DESC LIMIT 5
 
     </select>
 

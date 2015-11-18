@@ -16,9 +16,7 @@ import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
 
-import static javax.ws.rs.core.Response.Status.ACCEPTED;
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
-import static javax.ws.rs.core.Response.Status.CREATED;
+import static javax.ws.rs.core.Response.Status.*;
 
 /**
  * Created by songlijun on 15/11/7.
@@ -50,25 +48,37 @@ public class UserServiceImpl implements UserService {
             if (addUserCount > 0) {
                 LOGGER.info("注册用户成功");
                 userResponseEntity.setStatusCode(201);
-                userResponseEntity.setContent(user);
                 user.setPassword(null);
+                userResponseEntity.setContent(user);
+
                 userResponseEntity.setMessage("注册用户成功");
                 response = Response.status(CREATED).entity(userResponseEntity).build();
             } else {
                 response = Response.status(ACCEPTED).entity(new ApiError(10110, "注册失败", httpServletRequest.getRequestURI(), "注册失败,请稍后重试")).build();
             }
         } else {
-            LOGGER.info("用户已存在");
-            userResponseEntity.setStatusCode(201);
 
-            userResponseEntity.setContent(checkUser);
-            user.setPassword(null);
-            userResponseEntity.setMessage("用户已存在");
-            response = Response.status(CREATED).entity(userResponseEntity).build();
+            if (user.getPlatformId() != "9") {
+                LOGGER.info("用户已存在");
+                userResponseEntity.setStatusCode(200);
+                checkUser.setPassword(null);
+                userResponseEntity.setContent(checkUser);
+                userResponseEntity.setMessage("用户已存在");
+                response = Response.status(OK).entity(userResponseEntity).build();
+
+            }else{
+                LOGGER.info("手机号已被注册");
+                userResponseEntity.setStatusCode(UNAUTHORIZED.getStatusCode());
+                userResponseEntity.setContent(null);
+                userResponseEntity.setMessage("手机号已被注册");
+                response = Response.status(UNAUTHORIZED).entity(userResponseEntity).build();
+            }
+
         }
         return response;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Response loginUser(String phone, String password, HttpServletRequest httpServletRequest) {
 
@@ -99,5 +109,32 @@ public class UserServiceImpl implements UserService {
             response = Response.status(ACCEPTED).entity(new ApiError(1013, "手机号未注册", httpServletRequest.getRequestURI(), "手机号未注册")).build();
         }
         return response;
+    }
+
+    @Transactional
+    @Override
+    public Response updateUser(User user, HttpServletRequest httpServletRequest) {
+        Response response;
+        String requestURI = httpServletRequest.getRequestURI();
+        ResponseEntity<Integer> userResponseEntity = new ResponseEntity();
+        userResponseEntity.setRequest(requestURI);
+
+        //更新用户信息
+        int upCount = userMapper.updateUser(user);
+        if (upCount > 0){
+            LOGGER.info("用户更新成功");
+            userResponseEntity.setStatusCode(200);
+            userResponseEntity.setContent(1);
+             userResponseEntity.setMessage("更新成功");
+            response = Response.status(OK).entity(userResponseEntity).build();
+
+        }else{
+            LOGGER.info("用户更新失败");
+            userResponseEntity.setStatusCode(200);
+            userResponseEntity.setContent(0);
+            userResponseEntity.setMessage("更新失败,请稍后重试");
+            response = Response.status(OK).entity(userResponseEntity).build();
+        }
+        return  response;
     }
 }

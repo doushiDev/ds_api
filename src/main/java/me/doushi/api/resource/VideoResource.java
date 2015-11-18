@@ -48,7 +48,7 @@ public class VideoResource {
      * @return
      */
     @GET
-    @Path("getVideosByType/{videoId}/{count}/{type}")
+    @Path("getVideosByType/{videoId}/{count}/{type}/{userId}")
     @ApiOperation("根据类型获取视频资源")
     @ApiResponses({
             @ApiResponse(code = 200, message = "获取成功", response = ResponseEntity.class),
@@ -58,13 +58,14 @@ public class VideoResource {
     public Response getVideosByType(@ApiParam(value = "视频id</br> 0:获取最新数据", required = true) @PathParam("videoId") int videoId,
                                     @ApiParam(value = "获取条数", required = true) @PathParam("count") int count,
                                     @ApiParam(value = "类型 </br>0:推荐1:精华 2:热门", required = true) @PathParam("type") int type,
+                                    @ApiParam(value = "用户id", required = true) @PathParam("userId") int userId,
                                     @Context HttpServletRequest httpServletRequest,
                                     @Context HttpServletResponse httpServletResponse) {
 
         httpServletResponse.setContentType("application/json;charset=utf-8");
         Response response;
         try {
-            response = videoService.getVideosByType(videoId, count, type, httpServletRequest);
+            response = videoService.getVideosByType(videoId, count, type,userId, httpServletRequest);
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());

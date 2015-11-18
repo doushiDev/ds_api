@@ -25,4 +25,14 @@ public interface UserService {
      * @return
      */
     Response loginUser(String phone, String password, HttpServletRequest httpServletRequest);
+
+    /**
+     * 更新用户信息
+     * @param user 用户信息
+     * @param httpServletRequest
+     * @return
+     */
+    Response updateUser(User user, HttpServletRequest httpServletRequest);
+
+
 }
