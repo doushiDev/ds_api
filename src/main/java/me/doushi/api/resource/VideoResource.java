@@ -75,6 +75,36 @@ public class VideoResource {
         return response;
     }
 
+    /**
+     * 根据videoId获取 video信息
+     *
+     * @return
+     */
+    @GET
+    @Path("getVideosById/{videoId}")
+    @ApiOperation("根据类型获取视频资源")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "获取成功", response = ResponseEntity.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ApiError.class),
+            @ApiResponse(code = 500, message = "系统异常", response = ApiError.class)})
+    public Response getVideosById(@ApiParam(value = "视频id", required = true) @PathParam("videoId") int videoId,
+
+                                    @Context HttpServletRequest httpServletRequest,
+                                    @Context HttpServletResponse httpServletResponse) {
+
+        httpServletResponse.setContentType("application/json;charset=utf-8");
+        Response response;
+        try {
+            response = videoService.getVideosById(videoId, httpServletRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            LOGGER.error("系统异常");
+            response = Response.status(INTERNAL_SERVER_ERROR).entity(new ApiError(10178, "系统错误", httpServletRequest.getRequestURI(), "系统错误,请联系逗视管理员")).build();
+        }
+        return response;
+    }
+
     @GET
     @Path("getVideosByBanner")
     @ApiOperation("获取发现 banner视频")

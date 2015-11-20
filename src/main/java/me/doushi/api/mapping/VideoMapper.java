@@ -23,4 +23,11 @@ public interface VideoMapper {
      * @return
      */
     List<Video> getVideosByType(Map<String, Object> parMap);
+
+    /**
+     * 根据videoId 获取video信息
+     * @param videoId
+     * @return
+     */
+    Video getVideosById(int videoId);
 }

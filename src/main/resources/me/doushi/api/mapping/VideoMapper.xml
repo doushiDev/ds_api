@@ -33,4 +33,12 @@
 
     </select>
 
+    <select id="getVideosById" resultType="me.doushi.api.domain.Video">
+
+        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime from `tb_video` v
+
+        where v.title != "" AND v.id = #{videoId}
+
+    </select>
+
 </mapper>

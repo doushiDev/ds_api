@@ -15,9 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
-import static javax.ws.rs.core.Response.Status.NO_CONTENT;
-import static javax.ws.rs.core.Response.Status.OK;
+import static javax.ws.rs.core.Response.Status.*;
 
 /**
  * Created by songlijun on 15/10/23.
@@ -73,6 +71,28 @@ public class VideoServiceImpl implements VideoService {
                 videoResponseEntity.setRequest(httpServletRequest.getRequestURI());
                 response = Response.status(NO_CONTENT).entity(videoResponseEntity).build();
             }
+        }
+        return response;
+    }
+
+    @Override
+    public Response getVideosById(int videoId, HttpServletRequest httpServletRequest) {
+        Response response;
+        String requestURI = httpServletRequest.getRequestURI();
+        ResponseEntity<Video> videoResponseEntity = new ResponseEntity<>();
+        videoResponseEntity.setRequest(requestURI);
+
+        Video video = videoMapper.getVideosById(videoId);
+        if (video != null){
+            videoResponseEntity.setStatusCode(OK.getStatusCode());
+            videoResponseEntity.setContent(video);
+            videoResponseEntity.setMessage("获取数据成功");
+             response = Response.status(OK).entity(videoResponseEntity).build();
+        }else{
+            videoResponseEntity.setStatusCode(NOT_FOUND.getStatusCode());
+            videoResponseEntity.setContent(video);
+            videoResponseEntity.setMessage("数据为空");
+            response = Response.status(NOT_FOUND).entity(videoResponseEntity).build();
         }
         return response;
     }

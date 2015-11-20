@@ -22,4 +22,12 @@ public interface VideoService {
      * @return
      */
     List<Video> getVideosByBanner();
+
+    /**
+     * 根据videoId 获取video信息
+     * @param videoId
+     * @param httpServletRequest
+     * @return
+     */
+    Response getVideosById(int videoId, HttpServletRequest httpServletRequest);
 }

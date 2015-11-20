@@ -32,13 +32,8 @@
 
     <select id="selectUserAndVideoListByUserId"
             resultType="me.doushi.api.domain.Video">
-
-
-
-    select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime from `tb_video` v where v.title != ""
-   AND v.id in (select uv.videoId FROM  tb_user_video uv WHERE uv.userId=#{userId} AND uv.status = 1 ORDER BY uv.createDate DESC
-  )
-limit #{pageNum},#{count}
+ select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime ,(select count(*) from `tb_user_video` tub WHERE tub.`status` = 1 AND tub.userId = #{userId} AND tub.videoId = v.id) as isCollectStatus from `tb_video` v ,tb_user_video uv
+where uv.videoId = v.id and uv.userId = #{userId} AND uv.status = 1 ORDER BY uv.createDate desc  limit #{pageNum},#{count}
 
   </select>
 
