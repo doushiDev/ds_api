@@ -9,7 +9,8 @@
 
 
         from `tb_video` v where v.title != ""
-
+        AND v.title not like "%#%" AND v.title not like "%@%" AND v.title not like "%微%"    AND v.title not like "%秒拍%"
+        AND v.title not like "%号%"  AND v.title not like "%美拍%"
         <if test="videoId != 0">
             AND id &lt; #{videoId}
         </if>
@@ -25,19 +26,45 @@
 
     <select id="getVideosByBanner" resultType="me.doushi.api.domain.Video">
 
-        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime from `tb_video` v
+        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime,(select count(*) from `tb_user_video` tub WHERE tub.`status` = 1 AND tub.userId = #{userId} AND tub.videoId = v.id) as isCollectStatus
+
+
+        from `tb_video` v
 
         where v.title != ""
-
+ AND v.title not like "%#%" AND v.title not like "%@%" AND v.title not like "%微%"    AND v.title not like "%秒拍%"
+ AND v.title not like "%号%"  AND v.title not like "%美拍%"
         ORDER BY rand() DESC LIMIT 5
+
+    </select>
+
+    <select id="getVideoTaxis" resultType="me.doushi.api.domain.Video">
+
+        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime,
+         (select count(*) from `tb_user_video` tub WHERE tub.`status` = 1 AND tub.userId = #{userId} AND tub.videoId = v.id) as isCollectStatus
+
+
+        from `tb_video` v
+
+        where v.title != ""
+  AND v.title not like "%#%" AND v.title not like "%@%" AND v.title not like "%微%"    AND v.title not like "%秒拍%"
+ AND v.title not like "%号%"  AND v.title not like "%美拍%"
+        ORDER BY rand() DESC LIMIT 25
 
     </select>
 
     <select id="getVideosById" resultType="me.doushi.api.domain.Video">
 
-        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime from `tb_video` v
+        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime,(select count(*) from `tb_user_video` tub WHERE tub.`status` = 1 AND tub.userId = #{userId} AND tub.videoId = v.id) as isCollectStatus
 
-        where v.title != "" AND v.id = #{videoId}
+
+        from `tb_video` v
+
+        where v.title != ""
+  AND v.title not like "%#%" AND v.title not like "%@%" AND v.title not like "%微%"    AND v.title not like "%秒拍%"
+ AND v.title not like "%号%"  AND v.title not like "%美拍%"
+
+        AND v.id = #{videoId}
 
     </select>
 

@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
             }
         } else {
 
-            if (user.getPlatformId() != "9") {
+            if (!user.getPlatformId().equals("9")) {
                 LOGGER.info("用户已存在");
                 userResponseEntity.setStatusCode(200);
                 checkUser.setPassword(null);

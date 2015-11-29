@@ -324,6 +324,13 @@
       <version>1.6.0</version>
     </dependency>
 
+
+    <dependency>
+      <groupId>cn.jpush.api</groupId>
+      <artifactId>jpush-client</artifactId>
+      <version>3.2.7</version>
+    </dependency>
+
   </dependencies>
   <build>
     <finalName>v1</finalName>

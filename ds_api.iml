@@ -115,5 +115,6 @@
     <orderEntry type="library" name="Maven: com.qiniu:qiniu-java-sdk:7.0.6" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okhttp:okhttp:2.5.0" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okio:okio:1.6.0" level="project" />
+    <orderEntry type="library" name="Maven: cn.jpush.api:jpush-client:3.2.7" level="project" />
   </component>
 </module>

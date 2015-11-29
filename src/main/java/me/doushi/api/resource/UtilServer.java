@@ -10,10 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -52,6 +49,34 @@ public class UtilServer {
         Response response;
         try {
             response = utilService.getQiNiuUpToken(httpServletRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            LOGGER.error("系统异常");
+            response = Response.status(INTERNAL_SERVER_ERROR).entity(new ApiError(10178, "系统错误", httpServletRequest.getRequestURI(), "系统错误,请联系逗视管理员")).build();
+        }
+        return response;
+    }
+
+    @POST
+    @Path("JPushClient")
+    @ApiOperation("极光推送")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "获取成功", response = ResponseEntity.class),
+            @ApiResponse(code = 204, message = "请求成功,但数据为空", response = ResponseEntity.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ApiError.class),
+            @ApiResponse(code = 500, message = "系统异常", response = ApiError.class)})
+    public Response jPushClient(
+            @ApiParam(value = "视频标题", name = "title", required = true) @FormParam("title") String title,
+            @ApiParam(value = "视频id", name = "videoId", required = true) @FormParam("videoId") Integer videoId,
+            @Context HttpServletRequest httpServletRequest,
+                                    @Context HttpServletResponse httpServletResponse) {
+
+        LOGGER.info("极光推送");
+        httpServletResponse.setContentType("application/json;charset=utf-8");
+        Response response;
+        try {
+            response = utilService.jPushClient(title, videoId, httpServletRequest);
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());

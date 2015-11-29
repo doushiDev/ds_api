@@ -97,6 +97,7 @@
           <element id="library" level="project" name="Maven: com.qiniu:qiniu-java-sdk:7.0.6" />
           <element id="library" level="project" name="Maven: com.squareup.okhttp:okhttp:2.5.0" />
           <element id="library" level="project" name="Maven: com.squareup.okio:okio:1.6.0" />
+          <element id="library" level="project" name="Maven: cn.jpush.api:jpush-client:3.2.7" />
         </element>
       </element>
       <element id="directory" name="META-INF">

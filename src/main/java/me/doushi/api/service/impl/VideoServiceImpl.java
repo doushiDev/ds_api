@@ -30,8 +30,8 @@ public class VideoServiceImpl implements VideoService {
     private VideoMapper videoMapper;
 
     @Override
-    public List<Video> getVideosByBanner() {
-        return videoMapper.getVideosByBanner();
+    public List<Video> getVideosByBanner(int userId) {
+        return videoMapper.getVideosByBanner(userId);
     }
 
     @Override
@@ -76,13 +76,16 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public Response getVideosById(int videoId, HttpServletRequest httpServletRequest) {
+    public Response getVideosById(int videoId,int userId, HttpServletRequest httpServletRequest) {
         Response response;
         String requestURI = httpServletRequest.getRequestURI();
         ResponseEntity<Video> videoResponseEntity = new ResponseEntity<>();
         videoResponseEntity.setRequest(requestURI);
 
-        Video video = videoMapper.getVideosById(videoId);
+        Map<String, Object> parMap = new HashMap<>();
+        parMap.put("videoId",videoId);
+        parMap.put("userId",userId);
+        Video video = videoMapper.getVideosById(parMap);
         if (video != null){
             videoResponseEntity.setStatusCode(OK.getStatusCode());
             videoResponseEntity.setContent(video);
@@ -93,6 +96,34 @@ public class VideoServiceImpl implements VideoService {
             videoResponseEntity.setContent(video);
             videoResponseEntity.setMessage("数据为空");
             response = Response.status(NOT_FOUND).entity(videoResponseEntity).build();
+        }
+        return response;
+    }
+
+    @Override
+    public Response getVideoTaxis(int userId,HttpServletRequest httpServletRequest) {
+        Response response;
+        String requestURI = httpServletRequest.getRequestURI();
+        ResponseEntity<List<Video>> videoResponseEntity = new ResponseEntity<>();
+        videoResponseEntity.setRequest(requestURI);
+
+        //请求数据
+        List<Video> videos = videoMapper.getVideoTaxis(userId);
+        //判断数据是否为空
+        if (!videos.isEmpty()) {
+            //视频集合不为空
+            LOGGER.info("视频集合为: " + videos.size() + "条");
+            videoResponseEntity.setStatusCode(OK.getStatusCode());
+            videoResponseEntity.setContent(videos);
+            videoResponseEntity.setMessage("获取 " + videos.size() + "条数据");
+            videoResponseEntity.setRequest(httpServletRequest.getRequestURI());
+            response = Response.status(OK).entity(videoResponseEntity).build();
+        } else {
+            videoResponseEntity.setStatusCode(NO_CONTENT.getStatusCode());
+            videoResponseEntity.setContent(videos);
+            videoResponseEntity.setMessage("没有数据");
+            videoResponseEntity.setRequest(httpServletRequest.getRequestURI());
+            response = Response.status(NO_CONTENT).entity(videoResponseEntity).build();
         }
         return response;
     }

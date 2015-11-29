@@ -81,13 +81,15 @@ public class VideoResource {
      * @return
      */
     @GET
-    @Path("getVideosById/{videoId}")
-    @ApiOperation("根据类型获取视频资源")
+    @Path("getVideosById/{videoId}/{userId}")
+    @ApiOperation("根据视频id获取视频资源")
     @ApiResponses({
             @ApiResponse(code = 200, message = "获取成功", response = ResponseEntity.class),
             @ApiResponse(code = 400, message = "参数非法", response = ApiError.class),
             @ApiResponse(code = 500, message = "系统异常", response = ApiError.class)})
-    public Response getVideosById(@ApiParam(value = "视频id", required = true) @PathParam("videoId") int videoId,
+    public Response getVideosById(
+            @ApiParam(value = "视频id", required = true) @PathParam("videoId") int videoId,
+            @ApiParam(value = "用户id", required = true) @PathParam("userId") int userId,
 
                                     @Context HttpServletRequest httpServletRequest,
                                     @Context HttpServletResponse httpServletResponse) {
@@ -95,7 +97,7 @@ public class VideoResource {
         httpServletResponse.setContentType("application/json;charset=utf-8");
         Response response;
         try {
-            response = videoService.getVideosById(videoId, httpServletRequest);
+            response = videoService.getVideosById(videoId, userId,httpServletRequest);
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
@@ -106,14 +108,17 @@ public class VideoResource {
     }
 
     @GET
-    @Path("getVideosByBanner")
+    @Path("getVideosByBanner/{userId}")
     @ApiOperation("获取发现 banner视频")
     @ApiResponses({
             @ApiResponse(code = 200, message = "获取成功", response = ResponseEntity.class),
             @ApiResponse(code = 204, message = "请求成功,但数据为空", response = ResponseEntity.class),
             @ApiResponse(code = 400, message = "参数非法", response = ApiError.class),
             @ApiResponse(code = 500, message = "系统异常", response = ApiError.class)})
-    public Response getVideosByBanner(@Context HttpServletRequest httpServletRequest,
+    public Response getVideosByBanner(
+            @ApiParam(value = "用户id", required = true) @PathParam("userId") int userId,
+
+            @Context HttpServletRequest httpServletRequest,
                                       @Context HttpServletResponse httpServletResponse) {
 
         httpServletResponse.setContentType("application/json;charset=utf-8");
@@ -121,7 +126,7 @@ public class VideoResource {
         ResponseEntity<List<Video>> videoResponseEntity = new ResponseEntity<List<Video>>();
         try {
             //请求数据
-            List<Video> videos = videoService.getVideosByBanner();
+            List<Video> videos = videoService.getVideosByBanner(userId);
             //判断数据是否为空
             if (!videos.isEmpty()) {
                 //视频集合不为空
@@ -147,5 +152,33 @@ public class VideoResource {
         }
         return response;
     }
+
+    @GET
+    @Path("getVideoTaxis/{userId}")
+    @ApiOperation("获取视频排行榜")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "获取成功", response = ResponseEntity.class),
+            @ApiResponse(code = 204, message = "请求成功,但数据为空", response = ResponseEntity.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ApiError.class),
+            @ApiResponse(code = 500, message = "系统异常", response = ApiError.class)})
+    public Response getVideoTaxis(
+            @ApiParam(value = "用户id", required = true) @PathParam("userId") int userId,
+
+            @Context HttpServletRequest httpServletRequest,
+                                      @Context HttpServletResponse httpServletResponse) {
+
+        httpServletResponse.setContentType("application/json;charset=utf-8");
+        Response response;
+        try {
+            response = videoService.getVideoTaxis(userId,httpServletRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            LOGGER.error("系统异常");
+            response = Response.status(INTERNAL_SERVER_ERROR).entity(new ApiError(10178, "系统错误", httpServletRequest.getRequestURI(), "系统错误,请联系逗视管理员")).build();
+        }
+        return response;
+    }
+
 
 }

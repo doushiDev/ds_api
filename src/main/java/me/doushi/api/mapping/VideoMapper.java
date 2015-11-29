@@ -15,7 +15,7 @@ public interface VideoMapper {
      * 获取发现 Banner
      * @return
      */
-    List<Video> getVideosByBanner();
+    List<Video> getVideosByBanner(int userId);
 
     /**
      * 根据类型获取视频
@@ -26,8 +26,14 @@ public interface VideoMapper {
 
     /**
      * 根据videoId 获取video信息
-     * @param videoId
+     * @param parMap
      * @return
      */
-    Video getVideosById(int videoId);
+    Video getVideosById(Map<String, Object> parMap);
+
+    /**
+     * 获取视频排行榜
+     * @return
+     */
+    List<Video> getVideoTaxis(int userId);
 }

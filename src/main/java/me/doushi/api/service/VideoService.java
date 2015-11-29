@@ -21,7 +21,7 @@ public interface VideoService {
      * 获取发现 Banner
      * @return
      */
-    List<Video> getVideosByBanner();
+    List<Video> getVideosByBanner(int userId);
 
     /**
      * 根据videoId 获取video信息
@@ -29,5 +29,12 @@ public interface VideoService {
      * @param httpServletRequest
      * @return
      */
-    Response getVideosById(int videoId, HttpServletRequest httpServletRequest);
+    Response getVideosById(int videoId,int userId, HttpServletRequest httpServletRequest);
+
+    /**
+     * 获取排行榜
+     * @param httpServletRequest
+     * @return
+     */
+    Response getVideoTaxis(int userId,HttpServletRequest httpServletRequest);
 }

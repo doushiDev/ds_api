@@ -13,4 +13,14 @@ public interface UtilService {
      * @return
      */
     Response getQiNiuUpToken(HttpServletRequest httpServletRequest);
+
+    /**
+     * 极光推送
+     *
+     * @param title
+     * @param videoId 视频id
+     * @param httpServletRequest
+     * @return
+     */
+    Response jPushClient(String title, Integer videoId, HttpServletRequest httpServletRequest);
 }
