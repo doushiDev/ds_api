@@ -67,7 +67,7 @@ public class UserAndVideoServiceImpl implements UserAndVideoService {
                 switch (CheckUserAndVideo.getStatus()) {
                     case 0: //已取消收藏
                         //修改收藏状态
-                        parMap.put("state", 1);
+                        parMap.put("status", 1);
                         CheckUserAndVideo.setStatus(1);
                         count = userAndVideoMapper.updateByUserIdAndVideoId(parMap);
                         userAndVideoResponseEntity.setContent(CheckUserAndVideo);

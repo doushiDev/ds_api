@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
                 userResponseEntity.setMessage("注册用户成功");
                 response = Response.status(CREATED).entity(userResponseEntity).build();
             } else {
-                response = Response.status(ACCEPTED).entity(new ApiError(10110, "注册失败", httpServletRequest.getRequestURI(), "注册失败,请稍后重试")).build();
+                response = Response.status(BAD_REQUEST).entity(new ApiError(BAD_REQUEST.getStatusCode(), "注册失败", httpServletRequest.getRequestURI(), "注册失败,请稍后重试")).build();
             }
         } else {
 
@@ -64,14 +64,19 @@ public class UserServiceImpl implements UserService {
                 checkUser.setPassword(null);
                 userResponseEntity.setContent(checkUser);
                 userResponseEntity.setMessage("用户已存在");
-                response = Response.status(OK).entity(userResponseEntity).build();
+//                response = Response.status(OK).entity(userResponseEntity).build();
+
+                response = Response.status(BAD_REQUEST).entity(new ApiError(BAD_REQUEST.getStatusCode(), "用户已存在", httpServletRequest.getRequestURI(), "用户已存在")).build();
+
 
             }else{
                 LOGGER.info("手机号已被注册");
                 userResponseEntity.setStatusCode(UNAUTHORIZED.getStatusCode());
                 userResponseEntity.setContent(null);
                 userResponseEntity.setMessage("手机号已被注册");
-                response = Response.status(UNAUTHORIZED).entity(userResponseEntity).build();
+//                response = Response.status(UNAUTHORIZED).entity(userResponseEntity).build();
+                response = Response.status(BAD_REQUEST).entity(new ApiError(BAD_REQUEST.getStatusCode(), "手机号已被注册", httpServletRequest.getRequestURI(), "手机号已被注册")).build();
+
             }
 
         }
