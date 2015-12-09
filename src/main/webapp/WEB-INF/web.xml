@@ -63,7 +63,7 @@
 
     <filter-mapping>
         <filter-name>ApiOriginFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/rest/*</url-pattern>
     </filter-mapping>
 
 
