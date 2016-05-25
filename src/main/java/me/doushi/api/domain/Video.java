@@ -2,7 +2,9 @@ package me.doushi.api.domain;
 
 import me.doushi.api.util.DateUtil;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import java.util.Base64;
 
 /**
  * Created by songlijun on 15/10/13.
@@ -36,6 +38,14 @@ public class Video {
     }
 
     public String getTitle() {
+
+        try {
+            byte[] asBytes = Base64.getDecoder().decode(title);
+            title = new String(asBytes, "utf-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return title;
+        }
         return title;
     }
 
