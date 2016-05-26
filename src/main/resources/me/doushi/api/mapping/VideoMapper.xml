@@ -26,30 +26,35 @@
 
     <select id="getVideosByBanner" resultType="me.doushi.api.domain.Video">
 
-        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime,(select count(*) from `tb_user_video` tub WHERE tub.`status` = 1 AND tub.userId = #{userId} AND tub.videoId = v.id) as isCollectStatus
+        select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime,
+         (select count(*) from `tb_user_video` tub WHERE tub.`status` = 1 AND tub.userId = 1 AND tub.videoId = v.id) as isCollectStatus
 
+FROM `tb_video` AS v JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM `tb_video`)) AS id) AS v1
+WHERE v.id >= v1.id
 
-        from `tb_video` v
-
-        where v.title != ""
- AND v.title not like "%#%" AND v.title not like "%@%" AND v.title not like "%微%"    AND v.title not like "%秒拍%"
+and v.title != ""
+  AND v.title not like "%#%" AND v.title not like "%@%" AND v.title not like "%微%"    AND v.title not like "%秒拍%"
  AND v.title not like "%号%"  AND v.title not like "%美拍%"
-        ORDER BY rand() DESC LIMIT 5
+
+
+ORDER BY v.id ASC LIMIT 5;
 
     </select>
 
     <select id="getVideoTaxis" resultType="me.doushi.api.domain.Video">
 
         select v.id,v.title,v.url as videoUrl ,v.pic,v.type,v.createTime as pushTime,
-         (select count(*) from `tb_user_video` tub WHERE tub.`status` = 1 AND tub.userId = #{userId} AND tub.videoId = v.id) as isCollectStatus
+         (select count(*) from `tb_user_video` tub WHERE tub.`status` = 1 AND tub.userId = 1 AND tub.videoId = v.id) as isCollectStatus
 
+FROM `tb_video` AS v JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM `tb_video`)) AS id) AS v1
+WHERE v.id >= v1.id
 
-        from `tb_video` v
-
-        where v.title != ""
+and v.title != ""
   AND v.title not like "%#%" AND v.title not like "%@%" AND v.title not like "%微%"    AND v.title not like "%秒拍%"
  AND v.title not like "%号%"  AND v.title not like "%美拍%"
-        ORDER BY rand() DESC LIMIT 25
+
+
+ORDER BY v.id ASC LIMIT 25;
 
     </select>
 
